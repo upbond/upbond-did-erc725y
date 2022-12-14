@@ -15,9 +15,15 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - uses: borales/actions-yarn@v3.0.0
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
         with:
-          cmd: install
+          node-version: 16.x
+
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
 
       - name: hardhat compile
         run: yarn compile
