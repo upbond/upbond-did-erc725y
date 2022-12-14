@@ -31,7 +31,7 @@ contract UpbondDIDFactory is Context, ReentrancyGuard {
         uint256 currentIndex = totalDID();
         _totalDID.increment();
 
-        bytes32 salt = bytes32(keccak256(abi.encode(currentIndex, _msgSender())));
+        bytes32 salt = bytes32(keccak256(abi.encode(currentIndex, _msgSender(), address(this))));
         address did = Clones.cloneDeterministic(_implementation, salt);
         IUpbondDID(did).initialize(_msgSender());
 
