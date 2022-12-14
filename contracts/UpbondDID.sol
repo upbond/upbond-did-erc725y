@@ -68,6 +68,26 @@ contract UpbondDID is EIP712Upgradeable, ERC725YInitAbstract, str2bytes {
 
         return dataValues;
     }
+    
+    function setData(bytes32 dataKey, bytes memory dataValue) public virtual override onlyOwner {
+        require(
+            keccak256(_getData(dataKey)) == keccak256(new bytes(0)),
+            "UpbondDID : This key already set!"
+        );
+
+        super.setData(dataKey, dataValue);
+    }
+
+    function setData(bytes32[] memory dataKeys, bytes[] memory dataValues) public virtual override onlyOwner {
+        for(uint256 a; a < dataValues.length; a++){
+            require(
+                keccak256(_getData(dataKeys[a])) == keccak256(new bytes(0)),
+                "UpbondDID : This key already set!"
+            );
+        }
+
+        super.setData(dataKeys, dataValues);
+    }
 
     function renounceOwnership() public override virtual {
         revert("UpbondDID : This function is overridden, ownable is not transferable!");
