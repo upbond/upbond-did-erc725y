@@ -19,11 +19,11 @@ module.exports = {
     },
     mumbai: {
       url: "https://polygon-testnet.public.blastapi.io",
-      accounts: [process.env.PK]
+      accounts: [`0x${process.env.PK}`]
     },
     polygon: {
       url: "https://polygon-rpc.com",
-      accounts: [process.env.PK]
+      accounts: [`0x${process.env.PK}`]
     }
   },
   etherscan: {
