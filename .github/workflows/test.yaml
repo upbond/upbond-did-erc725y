@@ -4,7 +4,7 @@ on:
     branches: [master]
 
 env:
-  PRIVATEKEY: 40b0c9441457ad318cf9a3ccdd8fd7ea71c38d0fcb8fe798fde618422e31c8c9
+  PK: 40b0c9441457ad318cf9a3ccdd8fd7ea71c38d0fcb8fe798fde618422e31c8c9
   API: EP56D8EPKQTQP8ZUQGI7ZJSCR5ND83UHZG
 
 jobs:
