@@ -28,6 +28,11 @@ contract UpbondDIDFactory is Context, ReentrancyGuard {
     }
     
     function createDID() external virtual nonReentrant {
+        require(
+            userDIDs[_msgSender()] == address(0),
+            "UpbondDIDFactory : You`re already created DID!"
+        );
+
         uint256 currentIndex = totalDID();
         _totalDID.increment();
 
