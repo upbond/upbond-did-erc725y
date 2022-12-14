@@ -27,7 +27,7 @@ module.exports = {
     }
   },
   etherscan: {
-    apiKey: "EP56D8EPKQTQP8ZUQGI7ZJSCR5ND83UHZG" // polygonscan.com
+    apiKey: process.env.API // polygonscan.com
   },
   gasReporter: {
     gasPrice: 10,
