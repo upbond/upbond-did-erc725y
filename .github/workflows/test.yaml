@@ -1,7 +1,7 @@
 name: Upbond DID
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 env:
   PRIVATEKEY: 40b0c9441457ad318cf9a3ccdd8fd7ea71c38d0fcb8fe798fde618422e31c8c9
