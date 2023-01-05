@@ -78,12 +78,25 @@ describe("Upbond DID", function() {
 
       expect(await upbondDIDFactory.totalDID()).to.equal(0);
     });
+    it("Should success call `owner`", async function () {
+      const { upbondDIDFactory, owner } = await loadFixture(deployDID);
+
+      expect(await upbondDIDFactory.owner()).to.equal(owner.address);
+    });
   });
   describe("Create DID", function () {
     it("Should success call `createDID`", async function () {
       const { upbondDIDFactory } = await loadFixture(deployDID);
       
       const tx = await upbondDIDFactory.createDID();
+      await tx.wait();
+
+      expect(await upbondDIDFactory.totalDID()).to.equal(1);
+    });
+    it("Should success call `createDIDForUser`", async function () {
+      const { upbondDIDFactory, otherAccount } = await loadFixture(deployDID);
+      
+      const tx = await upbondDIDFactory.createDIDForUser(otherAccount.address);
       await tx.wait();
 
       expect(await upbondDIDFactory.totalDID()).to.equal(1);
@@ -99,8 +112,39 @@ describe("Upbond DID", function() {
         "UpbondDIDFactory : You`re already created DID!"
       );
     });
+    it("Should error if call `createDIDForUser` again with same wallet", async function () {
+      const { upbondDIDFactory, otherAccount } = await loadFixture(deployDID);
+      
+      const tx = await upbondDIDFactory.createDIDForUser(otherAccount.address);
+      await tx.wait();
+
+      expect(await upbondDIDFactory.totalDID()).to.equal(1);
+      await expect(upbondDIDFactory.createDIDForUser(otherAccount.address)).to.be.revertedWith(
+        "UpbondDIDFactory : User already have DID!"
+      );
+    });
+    it("Should error if call `createDIDForUser` if not owner", async function () {
+      const { upbondDIDFactory, otherAccount } = await loadFixture(deployDID);
+      
+      await expect(upbondDIDFactory.connect(otherAccount).createDIDForUser(otherAccount.address)).to.be.revertedWith(
+        "Ownable: caller is not the owner"
+      );
+    });
   });
   describe("Control DID", function () {
+    it("Should success call `factory`", async function () {
+      const { upbondDIDFactory, owner } = await loadFixture(deployDID);
+      
+      const tx = await upbondDIDFactory.createDID();
+      await tx.wait();
+
+      expect(await upbondDIDFactory.totalDID()).to.equal(1);
+
+      const didAddr = await upbondDIDFactory.userDIDs(owner.address);
+      const upbondDID = await remoteDID(didAddr);
+
+      expect(await upbondDID.factory()).to.equal(upbondDIDFactory.address);
+    });
     it("Should success call `owner`", async function () {
       const { upbondDIDFactory, owner } = await loadFixture(deployDID);
       
