@@ -183,8 +183,8 @@ contract UpbondDID is Context, EIP712Upgradeable, ERC725YInitAbstract, str2bytes
             keccak256(_getData(dataKey)) == keccak256(new bytes(0)),
             "UpbondDID : This key already set!"
         );
-
-        super.setData(dataKey, dataValue);
+        
+        _setData(dataKey, dataValue);
     }
 
     /**
@@ -210,7 +210,9 @@ contract UpbondDID is Context, EIP712Upgradeable, ERC725YInitAbstract, str2bytes
             );
         }
 
-        super.setData(dataKeys, dataValues);
+        for (uint256 i = 0; i < dataKeys.length; i = _uncheckedIncrementERC725Y(i)) {
+            _setData(dataKeys[i], dataValues[i]);
+        }
     }
 
     /**
